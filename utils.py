@@ -95,3 +95,20 @@ def shortest_path(graph, start, goal):
 			queue.append((s[0], s[1]-1))
 			if (s[0], s[1]-1) not in par:
 				par[(s[0], s[1]-1)] = s
+
+def tasks_remaining(robots):
+	'''
+	Returning if any task remaining or not
+
+	Input : 
+		list of robot objects
+	
+	Output : 
+		True -> Task remaining
+		False -> Tasks over
+	'''
+
+	for robot in robots:
+		if robot.tasks_left>0:
+			return True
+	return False
