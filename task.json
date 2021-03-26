@@ -1,0 +1,20 @@
+{
+	"robot1":{
+		"init" : [0,0],
+		"final" : [0,8],
+		"pickup" : [5,0],
+		"deliver" : [3,12]	
+	},
+	"robot2":{
+		"init" : [5,9],
+		"final" : [5,5],
+		"pickup" : [4,6],
+		"deliver" : [0,5]	
+	},
+	"robot3":{
+		"init" : [0,0],
+		"final" : [5,5],
+		"pickup" : [5,0],
+		"deliver" : [0,5]	
+	}
+}

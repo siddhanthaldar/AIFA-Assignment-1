@@ -25,6 +25,26 @@ def create_graph(json_path):
 
 	return graph
 
+def read_task(txt_path):
+	'''
+	Return dict of tasks
+	'''
+	f = open(txt_path, 'r')
+	data = f.read().split()
+
+	tasks = {}
+	for line in data:
+		line = line.split(',')
+		if line[0] not in tasks:
+			tasks[line[0]] = []
+		init = tuple([int(line[1]), int(line[2])])
+		final = tuple([int(line[3]), int(line[4])])
+		pickup = tuple([int(line[5]), int(line[6])])
+		delivery = tuple([int(line[7]), int(line[8])])
+		tasks[line[0]].append([init, final, pickup, delivery])
+
+	return tasks
+
 def shortest_path(graph, start, goal):
 	n, m = graph['n'], graph['m']
 
