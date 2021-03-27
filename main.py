@@ -52,6 +52,7 @@ while(tasks_remaining(robots)):
 					while new_loc in loc:
 						robot.reroute()
 						new_loc = robot.optimal_paths[robot.task_idx][robot.loc_idx]
+						# TODO : If 4 cells around it explored -> exit
 				else:
 					loc[new_loc] = robot
 					while new_loc in loc:	
