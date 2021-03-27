@@ -30,5 +30,7 @@ class Robot:
 		Reroute path if collision between multiple robots
 		at task->self.task_idx and loc->self.loc_idx by ignoring
 		collison block.
+		(Take a step back, block current cell as other robot occupies it, 
+		and find shortest path in the given scenario)
 		'''
 		pass
