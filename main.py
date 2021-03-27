@@ -18,24 +18,31 @@ for robot in tasks:
 		path = path1 + path2 + path3
 		optimal_paths[robot].append(path)
 
-# Tasks left per robots
-tasks_left = {}
-for robot in optimal_paths:
-	tasks_left[robot] = len(optimal_paths[robot])
+# # Tasks left per robots
+# tasks_left = {}
+# for robot in optimal_paths:
+# 	tasks_left[robot] = len(optimal_paths[robot])
 
 # List of robots
 robots = []
 for robot in optimal_paths:
-	robots.append(Robot(name=robot, optimal_paths=optimal_paths[robot], tasks_left=tasks_left[robot], graph=graph))
+	robots.append(Robot(name=robot, optimal_paths=optimal_paths[robot], tasks_left=len(optimal_paths[robot]), graph=graph))
 
-time = 0
-while(tasks_remaining(tasks_left)):
+while(tasks_remaining(robots)):
 	loc = {} # Dict of (location, robot) to keep track of collisions
 	for robot in robots:
+		
+		# Continue to next robot if all tasks for robot completed.
+		if robot.task_idx = -1:
+			continue
+
 		robot.loc_idx = robot.loc_idx+1 # Go to next location
 		if robot.loc_idx < len(robot.optimal_paths[robot.task_idx]): # Continue the same task
+			
 			new_loc = robot.optimal_paths[robot.task_idx][robot.loc_idx]
-			if new_loc in loc: # Collision occurs 
+			
+			# Collision occurs
+			if new_loc in loc: 
 				existing_robot = loc[new_loc]
 				dist2end_existing = len(existing_robot.optimal_paths[existing_robot.task_idx]) - existing_robot.loc_idx
 				dist2end_new = len(robot.optimal_paths[existing_robot.task_idx]) - robot.loc_idx
@@ -51,11 +58,13 @@ while(tasks_remaining(tasks_left)):
 						existing_robot.reroute()
 						new_loc = existing_robot.optimal_paths[existing_robot.task_idx][existing_robot.loc_idx]			
 
-			else: # If no collision
+			# If no collision
+			else:
 				# Add to dict only if not a TS. If TS, others can come in, so don't need to check for collisions.
 				if new_loc not in graph('TS'):
 					loc[robot.optimal_paths[robot.task_idx][robot.loc_idx]] = robot
 
 		else: # Go to next task if that exists
 			robot.task_idx = (robot.task_idx+1) if ((robot.task_idx+1)<len(robot.optimal_paths)) else -1
+			robot.tasks_left -= 1
 			robot.loc_idx = 0
