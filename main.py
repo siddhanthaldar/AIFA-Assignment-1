@@ -26,9 +26,36 @@ for robot in optimal_paths:
 # List of robots
 robots = []
 for robot in optimal_paths:
-	robots.append(Robot(name=robot, optimal_paths=optimal_paths[robot], tasks_left=tasks_left[robot]))
+	robots.append(Robot(name=robot, optimal_paths=optimal_paths[robot], tasks_left=tasks_left[robot], graph=graph))
 
 time = 0
-# while(tasks_remaining(tasks_left)):
-# 	points_occupied = {}
-# 	for robot in optimal_paths:
+while(tasks_remaining(tasks_left)):
+	loc = {} # Dict of (location, robot) to keep track of collisions
+	for robot in robots:
+		robot.loc_idx = robot.loc_idx+1 # Go to next location
+		if robot.loc_idx < len(robot.optimal_paths[robot.task_idx]): # Continue the same task
+			new_loc = robot.optimal_paths[robot.task_idx][robot.loc_idx]
+			if new_loc in loc: # Collision occurs 
+				existing_robot = loc[new_loc]
+				dist2end_existing = len(existing_robot.optimal_paths[existing_robot.task_idx]) - existing_robot.loc_idx
+				dist2end_new = len(robot.optimal_paths[existing_robot.task_idx]) - robot.loc_idx
+
+				# Letting the robot closer to the end of its task to go through
+				if dist2end_existing <= dist2end_new: 
+					while new_loc in loc:
+						robot.reroute()
+						new_loc = robot.optimal_paths[robot.task_idx][robot.loc_idx]
+				else:
+					loc[new_loc] = robot
+					while new_loc in loc:	
+						existing_robot.reroute()
+						new_loc = existing_robot.optimal_paths[existing_robot.task_idx][existing_robot.loc_idx]			
+
+			else: # If no collision
+				# Add to dict only if not a TS. If TS, others can come in, so don't need to check for collisions.
+				if new_loc not in graph('TS'):
+					loc[robot.optimal_paths[robot.task_idx][robot.loc_idx]] = robot
+
+		else: # Go to next task if that exists
+			robot.task_idx = (robot.task_idx+1) if ((robot.task_idx+1)<len(robot.optimal_paths)) else -1
+			robot.loc_idx = 0

@@ -109,6 +109,6 @@ def tasks_remaining(robots):
 	'''
 
 	for robot in robots:
-		if robot.tasks_left>0:
+		if robot.task_idx < len(robot.optimal_paths):
 			return True
 	return False
