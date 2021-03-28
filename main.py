@@ -15,13 +15,7 @@ for robot in tasks:
 		path1 = shortest_path(graph, task[0], task[1])
 		path2 = shortest_path(graph, task[1], task[2])
 		path3 = shortest_path(graph, task[2], task[3])
-		#path = path1 + path2 + path3
 		optimal_paths[robot].append([path1,path2,path3])
-
-# # Tasks left per robots
-# tasks_left = {}
-# for robot in optimal_paths:
-#   tasks_left[robot] = len(optimal_paths[robot])
 
 # List of robots
 robots = []
@@ -54,7 +48,6 @@ while(tasks_remaining(robots)):
 							robot.task_part_idx -=1 
 						robot.reroute(new_loc)
 						new_loc = robot.optimal_paths[robot.task_idx][robot.task_part_idx][robot.loc_idx]
-						# TODO : If 4 cells around it explored -> exit
 				else:
 					loc[new_loc] = robot
 					while new_loc in loc:
@@ -81,7 +74,8 @@ while(tasks_remaining(robots)):
 				robot.task_part_idx = 0
 
 for robot in robots:
+	print("\n")
 	print("------------------------------------------")
 	print(robot.name)
 	for idx, path in enumerate(robot.optimal_paths):
-		print(idx,"	->	", path)
+		print("Task",idx,"->", path)

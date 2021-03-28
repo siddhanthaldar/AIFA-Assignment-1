@@ -40,7 +40,6 @@ def read_task(txt_path):
 		final = tuple([int(line[3]), int(line[4])])
 		pickup = tuple([int(line[5]), int(line[6])])
 		delivery = tuple([int(line[7]), int(line[8])])
-		# tasks[line[0]].append([init, final, pickup, delivery])
 		tasks[line[0]].append([init, pickup, delivery, final])
 
 	return tasks

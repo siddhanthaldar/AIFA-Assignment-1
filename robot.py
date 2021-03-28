@@ -44,8 +44,5 @@ class Robot:
 		and find shortest path in the given scenario)
 		'''
 		
-		# new_path = shortest_path(graph, self.optimal_paths[self.task_idx][self.task_part_idx][self.loc_idx], self.goal_idx[self.task_part_idx], addn_blocked = new_loc)
-		# self.optimal_paths[self.task_idx][self.task_part_idx] = self.optimal_paths[self.task_idx][self.task_part_idx][0:self.loc_idx] + new_path
-
 		new_path = shortest_path(self.graph, self.optimal_paths[self.task_idx][self.task_part_idx][self.loc_idx], self.goal_idx[self.task_idx][self.task_part_idx], addn_blocked = new_loc)
 		self.optimal_paths[self.task_idx][self.task_part_idx] = self.optimal_paths[self.task_idx][self.task_part_idx][0:self.loc_idx] + new_path
