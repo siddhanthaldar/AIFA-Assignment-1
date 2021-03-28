@@ -36,10 +36,8 @@ while(tasks_remaining(robots)):
 		if robot.task_idx == -1:
 			continue
 		
-		robot.loc_idx = robot.loc_idx+1 # Go to next location
-		
-		if robot.loc_idx < len(robot.optimal_paths[robot.task_idx][robot.task_part_idx]): # Continue the same task
-
+		if robot.loc_idx + 1 < len(robot.optimal_paths[robot.task_idx][robot.task_part_idx]): # Continue the same task
+			robot.loc_idx = robot.loc_idx+1 # Go to next location
 			new_loc = robot.optimal_paths[robot.task_idx][robot.task_part_idx][robot.loc_idx]
 
 			# Collision occurs
@@ -76,13 +74,14 @@ while(tasks_remaining(robots)):
 			robot.task_part_idx+=1
 			robot.loc_idx = 0
 			
-			if robot.task_part_idx == 3:
+			if (len(robot.optimal_paths[robot.task_idx]) > 1 and robot.task_part_idx >= 3) or (len(robot.optimal_paths[robot.task_idx]) == 1 and robot.task_part_idx >= 1):
 				robot.task_idx = (robot.task_idx+1) if ((robot.task_idx+1)<len(robot.optimal_paths)) else -1 # task id = -1 if all tasks completed
 				robot.tasks_left -= 1
 				robot.loc_idx = 0
+				robot.task_part_idx = 0
 
 for robot in robots:
 	print("------------------------------------------")
 	print(robot.name)
-	for path in robot.optimal_paths:
-		print("1	->	", path)
+	for idx, path in enumerate(robot.optimal_paths):
+		print(idx,"	->	", path)
